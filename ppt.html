@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Navigation System Presentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            position: relative;
+        }
+        
+        .presentation-container {
+            display: flex;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .slides-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 90vh;
+            background: rgba(25, 35, 70, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(86, 204, 242, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.15) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide-title {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #56ccf2, #bb6bd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-align: center;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.8rem;
+            color: #bb6bd9;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            flex: 1;
+        }
+        
+        .text-content {
+            flex: 1;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .visual-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .visual-container {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 30, 0.4);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 1px solid rgba(86, 204, 242, 0.3);
+        }
+        
+        .quantum-animation {
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+        
+        .atom {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 3px solid #56ccf2;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #56ccf2;
+        }
+        
+        .electron {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #bb6bd9;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #bb6bd9;
+            animation: orbit 5s linear infinite;
+        }
+        
+        .electron:nth-child(2) {
+            animation: orbit 7s linear infinite;
+            animation-delay: -1s;
+            background: #56ccf2;
+            box-shadow: 0 0 15px #56ccf2;
+        }
+        
+        .electron:nth-child(3) {
+            animation: orbit 4s linear infinite;
+            animation-delay: -2s;
+            background: #2ecc71;
+            box-shadow: 0 0 15px #2ecc71;
+        }
+        
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+        
+        .bullet-points {
+            list-style-type: none;
+            margin-top: 30px;
+        }
+        
+        .bullet-points li {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+            font-size: 1.3rem;
+        }
+        
+        .bullet-points li::before {
+            content: "•";
+            color: #56ccf2;
+            font-size: 2.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(0, 10, 30, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(to right, #56ccf2, #bb6bd9);
+            padding: 15px;
+            text-align: left;
+            font-size: 1.3rem;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: rgba(0, 20, 40, 0.3);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(0, 20, 40, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(86, 204, 242, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 30, 60, 0.5);
+        }
+        
+        .feature-card h3 {
+            color: #56ccf2;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .feature-card p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0 20px;
+        }
+        
+        .navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(25, 35, 70, 0.7);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(86, 204, 242, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #56ccf2;
+            font-size: 2rem;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(86, 204, 242, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background: linear-gradient(to right, #56ccf2, #bb6bd9);
+            transition: width 0.5s ease;
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+        
+        .company-logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #56ccf2;
+        }
+        
+        .presenter {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Slide-specific styling */
+        .title-slide .slide-title {
+            font-size: 4.5rem;
+            margin-top: 100px;
+        }
+        
+        .title-slide .slide-subtitle {
+            font-size: 2.2rem;
+            margin-top: 20px;
+        }
+        
+        .title-slide .presenter {
+            position: absolute;
+            bottom: 150px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .conclusion-slide .text-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .conclusion-slide .slide-title {
+            margin-bottom: 60px;
+        }
+        
+        .contact-info {
+            margin-top: 50px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .contact-info div {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="navigation">
+            <div class="nav-btn prev-btn">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="nav-btn next-btn">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+        
+        <div class="slides-container">
+            <!-- Slide 1: Title -->
+            <div class="slide title-slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Quantum Navigation System</h1>
+                    <h2 class="slide-subtitle">The Future of Precision Navigation</h2>
+                    <div class="content-wrapper">
+                        <div class="visual-content">
+                            <div class="quantum-animation">
+                                <div class="atom"></div>
+                                <div class="electron"></div>
+                                <div class="electron"></div>
+                                <div class="electron"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="presenter">Presented by: Dr. Alex Morgan, Chief Technology Officer</div>
+                <div class="slide-number">1 / 9</div>
+                <div class="progress-bar" style="width: 11.11%"></div>
+            </div>
+            
+            <!-- Slide 2: Introduction -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Introduction to Quantum Navigation</h1>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <p>Quantum Navigation leverages the principles of quantum mechanics to achieve unprecedented levels of precision in positioning and motion tracking.</p>
+                            <ul class="bullet-points">
+                                <li>Utilizes quantum entanglement and superposition for position determination</li>
+                                <li>Does not rely on external signals like GPS, making it immune to jamming</li>
+                                <li>Provides centimeter-level accuracy in any environment</li>
+                                <li>Operates independently of satellite systems</li>
+                                <li>Maintains accuracy over extended periods without drift</li>
+                            </ul>
+                        </div>
+                        <div class="visual-content">
+                            <div class="visual-container">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-satellite" style="font-size: 5rem; color: #bb6bd9;"></i>
+                                    <div style="margin-top: 30px; font-size: 1.5rem;">
+                                        <div style="color: #56ccf2; margin-bottom: 15px;">Traditional GPS</div>
+                                        <div style="display: flex; align-items: center; margin: 20px 0;">
+                                            <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.2);">
+                                                <div style="height: 100%; width: 70%; background: #bb6bd9;"></div>
+                                            </div>
+                                            <div style="margin-left: 15px;">Accuracy</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; margin: 20px 0;">
+                                            <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.2);">
+                                                <div style="height: 100%; width: 40%; background: #bb6bd9;"></div>
+                                            </div>
+                                            <div style="margin-left: 15px;">Reliability</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">2 / 9</div>
+                <div class="progress-bar" style="width: 22.22%"></div>
+            </div>
+            
+            <!-- Slide 3: How It Works -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">How Quantum Navigation Works</h1>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <p>Quantum Navigation Systems use cold atom interferometry to measure acceleration and rotation with extreme precision.</p>
+                            <ul class="bullet-points">
+                                <li><strong>Cold Atom Sensors:</strong> Atoms cooled to near absolute zero</li>
+                                <li><strong>Laser Interferometry:</strong> Measures atomic wave interference patterns</li>
+                                <li><strong>Quantum Superposition:</strong> Atoms exist in multiple states simultaneously</li>
+                                <li><strong>Entanglement:</strong> Particles linked across space for precise correlation</li>
+                                <li><strong>Dead Reckoning:</strong> Calculates position from initial known point</li>
+                            </ul>
+                            <p>The system measures changes in the quantum states of atoms to detect even the slightest movements.</p>
+                        </div>
+                        <div class="visual-content">
+                            <div class="visual-container">
+                                <div style="text-align: center; width: 100%;">
+                                    <div style="display: flex; justify-content: space-around; margin-bottom: 40px;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(86, 204, 242, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                                                <i class="fas fa-snowflake" style="font-size: 3rem; color: #56ccf2;"></i>
+                                            </div>
+                                            <div>Atom Cooling</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(187, 107, 217, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                                                <i class="fas fa-wave-square" style="font-size: 3rem; color: #bb6bd9;"></i>
+                                            </div>
+                                            <div>Interferometry</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-around;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(46, 204, 113, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                                                <i class="fas fa-link" style="font-size: 3rem; color: #2ecc71;"></i>
+                                            </div>
+                                            <div>Entanglement</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(255, 107, 107, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                                                <i class="fas fa-calculator" style="font-size: 3rem; color: #ff6b6b;"></i>
+                                            </div>
+                                            <div>Position Calculation</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">3 / 9</div>
+                <div class="progress-bar" style="width: 33.33%"></div>
+            </div>
+            
+            <!-- Slide 4: Key Features -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Key Features</h1>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <div class="feature-grid">
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-bullseye"></i> Extreme Precision</h3>
+                                    <p>Quantum navigation achieves centimeter-level accuracy, far surpassing traditional GPS systems which typically have 5-10 meter accuracy.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-shield-alt"></i> Jamming Resistance</h3>
+                                    <p>Operates independently of external signals, making it immune to jamming, spoofing, and signal interference.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-infinity"></i> No Drift Over Time</h3>
+                                    <p>Maintains positional accuracy for extended periods without the need for recalibration or external references.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-water"></i> All-Environment Operation</h3>
+                                    <p>Functions equally well underwater, underground, in urban canyons, and in deep space where GPS is unavailable.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-bolt"></i> Instant Initialization</h3>
+                                    <p>Requires no satellite acquisition time and provides position data immediately upon activation.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-lock"></i> Quantum-Secure</h3>
+                                    <p>Leverages quantum encryption for secure position reporting and data transmission.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">4 / 9</div>
+                <div class="progress-bar" style="width: 44.44%"></div>
+            </div>
+            
+            <!-- Slide 5: Applications -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Applications</h1>
+                    <h2 class="slide-subtitle">Revolutionizing Navigation Across Industries</h2>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <div class="feature-grid">
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-fighter-jet"></i> Defense & Military</h3>
+                                    <p>Submarine navigation, hypersonic missiles, drones operating in GPS-denied environments, and secure troop positioning.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-ship"></i> Maritime Navigation</h3>
+                                    <p>Precise ship navigation, autonomous vessels, underwater exploration, and port operations.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-car"></i> Autonomous Vehicles</h3>
+                                    <p>Self-driving cars with lane-level accuracy, especially in urban canyons and tunnels where GPS fails.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-plane"></i> Aviation</h3>
+                                    <p>Aircraft navigation, precision landing systems, and UAV operations in challenging environments.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-hard-hat"></i> Industrial</h3>
+                                    <p>Precision mining, tunnel boring guidance, and robotic automation in GPS-denied areas.</p>
+                                </div>
+                                <div class="feature-card">
+                                    <h3><i class="fas fa-rocket"></i> Space Exploration</h3>
+                                    <p>Deep space navigation, planetary exploration, and satellite formation flying.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">5 / 9</div>
+                <div class="progress-bar" style="width: 55.55%"></div>
+            </div>
+            
+            <!-- Slide 6: Comparison -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Technology Comparison</h1>
+                    <h2 class="slide-subtitle">Quantum Navigation vs. Traditional Systems</h2>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <table class="comparison-table">
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>GPS Navigation</th>
+                                    <th>Inertial Navigation</th>
+                                    <th>Quantum Navigation</th>
+                                </tr>
+                                <tr>
+                                    <td>Accuracy</td>
+                                    <td>5-10 meters</td>
+                                    <td>Degrades over time</td>
+                                    <td><strong>Centimeter-level</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Signal Dependency</td>
+                                    <td>Satellite signals required</td>
+                                    <td>None</td>
+                                    <td>None</td>
+                                </tr>
+                                <tr>
+                                    <td>Jamming Vulnerability</td>
+                                    <td>High</td>
+                                    <td>None</td>
+                                    <td>None</td>
+                                </tr>
+                                <tr>
+                                    <td>Position Drift</td>
+                                    <td>Low (with signal)</td>
+                                    <td>High (over time)</td>
+                                    <td><strong>Negligible</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Urban Canyon Performance</td>
+                                    <td>Poor</td>
+                                    <td>Good</td>
+                                    <td><strong>Excellent</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Underwater Operation</td>
+                                    <td>Impossible</td>
+                                    <td>Limited</td>
+                                    <td><strong>Full capability</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Initialization Time</td>
+                                    <td>30+ seconds</td>
+                                    <td>Instant</td>
+                                    <td>Instant</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">6 / 9</div>
+                <div class="progress-bar" style="width: 66.66%"></div>
+            </div>
+            
+            <!-- Slide 7: Benefits -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Strategic Benefits</h1>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <ul class="bullet-points">
+                                <li><strong>Enhanced Security:</strong> Immune to signal jamming and spoofing attacks that compromise traditional systems</li>
+                                <li><strong>Operational Resilience:</strong> Functions in environments where GPS is denied or unavailable</li>
+                                <li><strong>Precision Capabilities:</strong> Enables applications requiring centimeter-level accuracy</li>
+                                <li><strong>Reduced Infrastructure:</strong> Eliminates need for ground-based augmentation systems</li>
+                                <li><strong>Cost Efficiency:</strong> Lower long-term operational costs despite higher initial investment</li>
+                                <li><strong>Future-Proof:</strong> Scalable architecture ready for quantum computing integration</li>
+                            </ul>
+                            <div style="margin-top: 40px; background: rgba(0, 30, 60, 0.4); padding: 25px; border-radius: 15px; border: 1px solid rgba(86, 204, 242, 0.3);">
+                                <h3 style="color: #56ccf2; margin-bottom: 15px;">Economic Impact</h3>
+                                <p>Quantum navigation technology is projected to create a $15B market by 2030, with applications across defense, transportation, and industrial sectors.</p>
+                            </div>
+                        </div>
+                        <div class="visual-content">
+                            <div class="visual-container">
+                                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-around;">
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                            <span>Security</span>
+                                            <span>100%</span>
+                                        </div>
+                                        <div style="height: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                                            <div style="height: 100%; width: 100%; background: linear-gradient(to right, #56ccf2, #2ecc71); border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                            <span>Precision</span>
+                                            <span>99.9%</span>
+                                        </div>
+                                        <div style="height: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                                            <div style="height: 100%; width: 99.9%; background: linear-gradient(to right, #bb6bd9, #56ccf2); border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                            <span>Reliability</span>
+                                            <span>99.5%</span>
+                                        </div>
+                                        <div style="height: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                                            <div style="height: 100%; width: 99.5%; background: linear-gradient(to right, #ff6b6b, #bb6bd9); border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                            <span>Cost Efficiency</span>
+                                            <span>85%</span>
+                                        </div>
+                                        <div style="height: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                                            <div style="height: 100%; width: 85%; background: linear-gradient(to right, #2ecc71, #56ccf2); border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">7 / 9</div>
+                <div class="progress-bar" style="width: 77.77%"></div>
+            </div>
+            
+            <!-- Slide 8: Future -->
+            <div class="slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Future Developments</h1>
+                    <h2 class="slide-subtitle">The Road Ahead for Quantum Navigation</h2>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <ul class="bullet-points">
+                                <li><strong>Miniaturization:</strong> Current suitcase-sized units evolving to chip-scale solutions by 2027</li>
+                                <li><strong>Hybrid Systems:</strong> Integration with existing GNSS for enhanced resilience</li>
+                                <li><strong>Quantum Networking:</strong> Secure position sharing through quantum communication channels</li>
+                                <li><strong>AI Integration:</strong> Machine learning for predictive pathfinding and anomaly detection</li>
+                                <li><strong>Consumer Applications:</strong> Future integration into smartphones and wearables</li>
+                                <li><strong>Space-Based Deployment:</strong> Quantum navigation satellites for global coverage</li>
+                            </ul>
+                            <div style="margin-top: 40px; background: rgba(0, 30, 60, 0.4); padding: 25px; border-radius: 15px; border: 1px solid rgba(86, 204, 242, 0.3);">
+                                <h3 style="color: #56ccf2; margin-bottom: 15px;">Development Timeline</h3>
+                                <div style="display: flex; height: 40px; margin-top: 20px; position: relative;">
+                                    <div style="position: absolute; height: 6px; background: rgba(255,255,255,0.2); top: 17px; left: 0; right: 0;"></div>
+                                    <div style="position: relative; width: 25%;">
+                                        <div style="position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #bb6bd9; top: 0; left: 0;"></div>
+                                        <div style="position: absolute; top: 45px; left: -10px; white-space: nowrap;">2023: Prototypes</div>
+                                    </div>
+                                    <div style="position: relative; width: 50%;">
+                                        <div style="position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #56ccf2; top: 0; left: 0;"></div>
+                                        <div style="position: absolute; top: 45px; left: -20px; white-space: nowrap;">2025: Defense Deployment</div>
+                                    </div>
+                                    <div style="position: relative; width: 75%;">
+                                        <div style="position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #2ecc71; top: 0; left: 0;"></div>
+                                        <div style="position: absolute; top: 45px; left: -30px; white-space: nowrap;">2027: Commercial Aviation</div>
+                                    </div>
+                                    <div style="position: relative; width: 100%;">
+                                        <div style="position: absolute; width: 40px; height: 40px; border-radius: 50%; background: #ff6b6b; top: 0; left: 0;"></div>
+                                        <div style="position: absolute; top: 45px; left: -20px; white-space: nowrap;">2030: Consumer Devices</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">8 / 9</div>
+                <div class="progress-bar" style="width: 88.88%"></div>
+            </div>
+            
+            <!-- Slide 9: Conclusion -->
+            <div class="slide conclusion-slide">
+                <div class="company-logo">
+                    <i class="fas fa-atom"></i>
+                    QuantumNav Systems
+                </div>
+                <div class="slide-content">
+                    <h1 class="slide-title">Conclusion</h1>
+                    <div class="content-wrapper">
+                        <div class="text-content">
+                            <p style="font-size: 1.8rem; margin-bottom: 40px;">Quantum Navigation represents a paradigm shift in positioning technology that will redefine safety, security, and precision across multiple industries.</p>
+                            
+                            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 40px;">
+                                <div style="text-align: center; padding: 25px; background: rgba(86, 204, 242, 0.1); border-radius: 15px; border: 1px solid rgba(86, 204, 242, 0.3);">
+                                    <i class="fas fa-bullseye" style="font-size: 3rem; color: #56ccf2; margin-bottom: 20px;"></i>
+                                    <h3>Unprecedented Precision</h3>
+                                </div>
+                                <div style="text-align: center; padding: 25px; background: rgba(187, 107, 217, 0.1); border-radius: 15px; border: 1px solid rgba(187, 107, 217, 0.3);">
+                                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #bb6bd9; margin-bottom: 20px;"></i>
+                                    <h3>Enhanced Security</h3>
+                                </div>
+                                <div style="text-align: center; padding: 25px; background: rgba(46, 204, 113, 0.1); border-radius: 15px; border: 1px solid rgba(46, 204, 113, 0.3);">
+                                    <i class="fas fa-infinity" style="font-size: 3rem; color: #2ecc71; margin-bottom: 20px;"></i>
+                                    <h3>Universal Operation</h3>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-info">
+                                <h3 style="color: #56ccf2; margin-bottom: 30px;">Contact Us</h3>
+                                <div>
+                                    <i class="fas fa-envelope"></i> info@quantumnav.com
+                                </div>
+                                <div>
+                                    <i class="fas fa-globe"></i> www.quantumnav.com
+                                </div>
+                                <div>
+                                    <i class="fas fa-phone"></i> +1 (800) QNT-NAV1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">9 / 9</div>
+                <div class="progress-bar" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Quantum Navigation System Presentation | Proprietary and Confidential
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slidesContainer = document.querySelector('.slides-container');
+            const slides = document.querySelectorAll('.slide');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            const progressBar = document.querySelector('.progress-bar');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            // Function to update slide position
+            function updateSlidePosition() {
+                slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update progress bar
+                const progressPercentage = (currentSlide / (totalSlides - 1)) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+            
+            // Next slide
+            nextBtn.addEventListener('click', function() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlidePosition();
+                }
+            });
+            
+            // Previous slide
+            prevBtn.addEventListener('click', function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlidePosition();
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    if (currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlidePosition();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateSlidePosition();
+                    }
+                }
+            });
+            
+            // Initialize slide position
+            updateSlidePosition();
+        });
+    </script>
+</body>
+</html>
